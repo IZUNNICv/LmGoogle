@@ -8,7 +8,7 @@ const LMaudio = () => {
   const [audioFile, setAudioFile] = useState(null);
   const [nuovaTabella, setNuovaTabella] = useState([]);
   const inputRef = useRef();
-  //--------------- Chiamata API per ottenere i dati della tabella--------------------
+  //--------------- Chiamata API LEGGI per ottenere i dati della tabella--------------------
   const db = "LmSync";
   const filtro = `Where Azienda <> '' or Azienda in ('00000000000','{AZIENDA}')`;
 
@@ -20,10 +20,8 @@ const LMaudio = () => {
 
   useEffect(() => {
     loadTabellaAudio();
+    console.log("Risultato Leggi:", nuovaTabella); // <-- Console log agregado
   }, []);
-  useEffect(() => {
-    console.log("Nuova Tabella", nuovaTabella);
-  }, [nuovaTabella]);
   // ---------------------------------------------------------------------------------
   const handleFileChange = (event) => {
     setAudioFile(event.target.files[0]);
@@ -40,8 +38,7 @@ const LMaudio = () => {
     reader.onloadend = async () => {
       const base64Audio = reader.result.split(",")[1];
 
-      // Si Leggi es solo una vista, no uses dati de nuovaTabella
-      const idobj = 1; // O el valore che corresponda secondo la tua logica
+      const idobj = 0;
       const oggiFormattato = FormatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
       const dbScrivi = "LmSync";
       const Classe = "LmSync";
@@ -52,7 +49,6 @@ const LMaudio = () => {
       };
 
       try {
-        // Salva nel backend tramite Scrivi
         await Scrivi(idobj, dbScrivi, Classe, oggettoDaScrivere);
         alert("Audio inviato e salvato con successo");
       } catch (error) {
@@ -73,7 +69,7 @@ const LMaudio = () => {
   return (
     <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
       <Typography variant="h4" fontWeight="bold" mb={1}>
-        file audio
+        File audio
       </Typography>
       <Typography variant="subtitle1" mb={3}>
         Carica un file audio e invialo facilmente!
@@ -119,24 +115,3 @@ const LMaudio = () => {
 };
 
 export default LMaudio;
-/*
-
-const db3 = "PRINT_TemplateComponentList";
-const filtro3 = `Where Azienda <> '' or Azienda in ('00000000000','{AZIENDA}')`;
-
-const ElementiComponenti = ({ open, onClose, nuovatable, setnuovaTable }) => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  const loadNuovaTabella = async () => {
-    const nuovatable = await Leggi(db3, filtro3);
-    const dataNuovaTabella = nuovatable?.Itemset?.["PRINT_TemplateComponentList"];
-    setnuovaTable(Array.isArray(dataNuovaTabella) ? dataNuovaTabella : []);
-  };
-  useEffect(() => {
-    loadNuovaTabella();
-  }, []);
-  useEffect(() => {
-    // console.log("Nuova Tabella", nuovatable);
-  }, [nuovatable]); 
-  
-  */

@@ -1,0 +1,16 @@
+{
+  "name": "lm-backend",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "node-fetch": "^2.6.7",
+    "selenium-webdriver": "^4.21.0",
+    "chromedriver": "^124.0.0"
+  }
+}
